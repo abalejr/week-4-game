@@ -2,7 +2,7 @@ body {
     height: 100%;
     position: relative;
     color: #231C23;
-    font-size: 4vh;
+    font-size: 3.6vh;
 }
 #flexbox {
     display: flex;
@@ -17,13 +17,12 @@ header {
 }
 #content {
     display: flex;
-    align-items: center;
     flex-direction: column;
     flex: 1;
 }
 .character {
     display: flex;
-    min-height: 190px;
+    min-height: 15vh;
 }
 .character div {
     margin-right: 1vw;
@@ -34,9 +33,19 @@ header {
     -webkit-box-sizing: border-box;
     border: 2px solid #714223;
     text-align: center;
+    font-size: 2.4vh;
+}
+.character img {
+    height: 16vh;
 }
 .character div:last-child {
-    margin: 0;
+    margin-right: 0;
+}
+.notification {
+    margin-left: 2vw;
+}
+button {
+    width: 7vw;
 }
 footer {
     width: 100%;
