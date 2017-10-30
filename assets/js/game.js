@@ -21,7 +21,7 @@ $(document).ready(function(){
     var defenderNotification = defenderDiv.children("aside");
     defenderNotification.hide();
 
-    function choosePlayer(choice) {
+    function ChoosePlayer(choice) {
         choice.addClass("active");
         playerNotification.hide();
         playerDiv.children("div").not(".active").prependTo(enemyDiv);
@@ -35,21 +35,35 @@ $(document).ready(function(){
         }
     };
 
-    function chooseDefender(choice) {
+    function ChooseDefender(choice) {
         enemyNotification.hide();
         var defenderName = choice.children(".name").text();
         defenderNotification.prepend(defenderName + " ");
         defenderNotification.show();
         choice.prependTo(defenderDiv);
+        for (var i = characters.length - 1; i >= 0; i--) {
+            if (characters[i].name == defenderName) {
+                var defender = characters[i];
+            }
+        }
     }
 
 
-    function characterClick() {
+    function CharacterClick() {
         var clicked = $(this);
         if (clicked.closest(".player").length == 1 && playerDiv.children().length != 2) {
             choosePlayer(clicked);
         } else if (clicked.closest(".enemy").length == 1 && defenderDiv.children().length == 1) {
             chooseDefender(clicked);
+        }
+    };
+
+    function Attack() {
+        if (defenderDiv.children().length == 2) {
+            if (defender.HP > 0 && player.HP > 0) {
+                defender.HP -= player.attack;
+                player.HP -= defender.defense;
+            }
         }
     };
 
