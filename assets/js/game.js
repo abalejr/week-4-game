@@ -5,6 +5,7 @@ $(document).ready(function(){
                       {name:"Boromir", HP:180, attack:10, defense:25},]
 
     var characterDiv = $(".character");
+    var $character = characterDiv.children("div");
 
     var you = $("#you");
     var playerDiv = $(".player");
@@ -103,14 +104,14 @@ $(document).ready(function(){
     };
 
     function NewPlayer () {
-        characterDiv.children("div").removeClass("active");
+        $character.removeClass("active");
         player.HP = playerStartHP;
         player.attack = playerStartAttack;
         defender.HP = defenderStartHP;
         resetButton.hide();
         defenderNotification.hide();
         enemies.before(you);
-        characterDiv.children("div").prependTo(playerDiv);
+        $character.prependTo(playerDiv);
         playerNotification.show();
     };
 
@@ -130,7 +131,7 @@ $(document).ready(function(){
         }
     };
 
-    characterDiv.children("div").click(CharacterClick);
+    $character.click(CharacterClick);
     attackButton.click(Attack);
     resetButton.click(Reset);
 });
