@@ -100,6 +100,7 @@ $(document).ready(function(){
                 resetButton.text("Play Again?");
                 resetButton.show();
             } else if (defender.HP <= 0) {
+                defenderDiv.children("div").hide();
                 defenderNotification.text(defender.name + " is dead!");
                 resetButton.text("Who's Next?");
                 resetButton.show();
@@ -124,7 +125,6 @@ $(document).ready(function(){
         resetButton.hide();
         defenderNotification.hide();
         enemyNotification.show();
-        defenderDiv.children("div").hide();
         defender.HP = defenderStartHP;
         defenderDiv.children("div").appendTo(playerDiv);
     };
