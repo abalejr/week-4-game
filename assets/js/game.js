@@ -69,7 +69,7 @@ $(document).ready(function(){
         var clicked = $(this);
         if (clicked.closest(".player").length == 1 && $("#content").text()[0] != "Y") {
             ChoosePlayer(clicked);
-        } else if (clicked.closest(".enemy").length == 1 && defenderDiv.children().length == 1) {
+        } else if (clicked.closest(".enemy").length == 1 && defenderDiv.children().length <= 1) {
             ChooseDefender(clicked);
         }
     };
@@ -95,6 +95,10 @@ $(document).ready(function(){
                 defenderNotification.text(player.name + " is dead!");
                 resetButton.text("Try Again");
                 resetButton.show();
+            } else if (defender.HP <= 0 && enemyDiv.children().length <= 1) {
+                defenderNotification.html(defender.name + " is dead!<br><br>THE RING IS YOURS!");
+                resetButton.text("Play Again?");
+                resetButton.show();
             } else if (defender.HP <= 0) {
                 defenderNotification.text(defender.name + " is dead!");
                 resetButton.text("Who's Next?");
@@ -112,6 +116,7 @@ $(document).ready(function(){
         defenderNotification.hide();
         enemies.before(you);
         $character.prependTo(playerDiv);
+        $character.show();
         playerNotification.show();
     };
 
@@ -120,12 +125,15 @@ $(document).ready(function(){
         defenderNotification.hide();
         enemyNotification.show();
         defenderDiv.children("div").hide();
+        defender.HP = defenderStartHP;
         defenderDiv.children("div").appendTo(playerDiv);
     };
 
     function Reset() {
         if (player.HP <= 0) {
             NewPlayer();
+        } else if (defender.HP <= 0 && enemyDiv.children().length <= 1) {
+            NewPlayer(); 
         } else if (defender.HP <= 0) {
             NewDefender();
         }
