@@ -87,9 +87,7 @@ $(document).ready(function(){
                 }
                 defender.HP -= player.attack;
                 player.HP -= defender.defense;
-                console.log("CLICK!");
-                console.log("player HP: " + player.HP);
-                console.log("defender HP: " + defender.HP);
+                defenderNotification.html("You attack " + defender.name + " for " + player.attack + " damage.<br>" + defender.name + " attacked you back for " + defender.defense + " damage.");
             }
             if (player.HP <= 0) {
                 defenderNotification.text(player.name + " is dead!");
@@ -113,6 +111,7 @@ $(document).ready(function(){
         player.HP = playerStartHP;
         player.attack = playerStartAttack;
         defender.HP = defenderStartHP;
+        attackCount = 0;
         resetButton.hide();
         defenderNotification.hide();
         enemies.before(you);
