@@ -13,6 +13,7 @@ $(document).ready(function(){
     var playerName = "";
     var playerAttack = 0;
     var playerStartAttack = 0;
+    var $playerHP;
     var playerHP = 0;
     var playerStartHP = 0;
     var playerNotification = playerDiv.children("aside").children("b");
@@ -26,6 +27,7 @@ $(document).ready(function(){
     var defender;
     var defenderName = "";
     var defenderDefense = 0;
+    var $defenderHP;
     var defenderHP = 0;
     var defenderStartHP = 0;
     var defenderNotification = defenderDiv.children("aside").children("b");
@@ -39,6 +41,7 @@ $(document).ready(function(){
 
 
     function ChoosePlayer(choice) {
+        $playerHP = choice.children(".hp")
         choice.addClass("active");
         playerNotification.hide();
         playerDiv.children("div").not(".active").prependTo(enemyDiv);
@@ -52,12 +55,12 @@ $(document).ready(function(){
                 playerStartAttack = playerAttack;
                 playerHP = player.HP;
                 playerStartHP = playerHP;
-                console.log(playerHP);
             }
         }
     };
 
     function ChooseDefender(choice) {
+        $defenderHP = choice.children(".hp")
         enemyNotification.hide();
         defenderName = choice.children(".name").text();
         defenderNotification.text(defenderName + " is ready to fight.");
@@ -91,11 +94,11 @@ $(document).ready(function(){
             if (defenderHP > 0 && playerHP > 0) {
                 if (attackCount > 1) {
                 playerAttack += playerStartAttack;
-                console.log(playerStartAttack);
-                console.log(playerAttack);
                 }
                 defenderHP -= playerAttack;
+                $defenderHP.text(defenderHP);
                 playerHP -= defenderDefense;
+                $playerHP.text(playerHP);
                 defenderNotification.html("You attack " + defenderName + " for " + playerAttack + " damage.<br />" + defenderName + " attacked you back for " + defenderDefense + " damage.");
             }
             if (playerHP <= 0) {
@@ -104,10 +107,13 @@ $(document).ready(function(){
                 resetButton.show();
             } else if (defenderHP <= 0 && enemyDiv.children().length <= 1) {
                 defenderNotification.html(defenderName + " is dead!<br /><br />THE RING IS YOURS!");
+                defenderDiv.children("div").hide();
+                $defenderHP.text(defenderStartHP);
                 resetButton.text("Play Again?");
                 resetButton.show();
             } else if (defenderHP <= 0) {
                 defenderDiv.children("div").hide();
+                $defenderHP.text(defenderStartHP);
                 defenderNotification.text(defenderName + " is dead!");
                 resetButton.text("Who's Next?");
                 resetButton.show();
@@ -118,6 +124,7 @@ $(document).ready(function(){
     function NewPlayer () {
         $character.removeClass("active");
         playerHP = playerStartHP;
+        $playerHP.text(playerStartHP);
         playerAttack = playerStartAttack;
         defenderHP = defenderStartHP;
         attackCount = 0;
