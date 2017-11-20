@@ -40,6 +40,13 @@ header {
     text-align: center;
     font-size: 2.4vh;
 }
+.enemy div {
+    background-color: #DD0000;
+}
+.defender div {
+    background-color: #000;
+    color: #FFF;
+}
 .character img {
     height: 16vh;
 }
