@@ -24,6 +24,9 @@ header {
     display: flex;
     min-height: 15vh;
 }
+.character .defender {
+    margin-top: 1vh;
+} 
 .character div {
     margin-right: 1vw;
     display: inline-table;
