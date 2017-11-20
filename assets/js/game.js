@@ -11,7 +11,9 @@ $(document).ready(function(){
     var playerDiv = $(".player");
     var player;
     var playerName = "";
+    var playerAttack = 0;
     var playerStartAttack = 0;
+    var playerHP = 0;
     var playerStartHP = 0;
     var playerNotification = playerDiv.children("aside").children("b");
 
@@ -23,6 +25,8 @@ $(document).ready(function(){
     var defenderDiv = $(".defender");
     var defender;
     var defenderName = "";
+    var defenderDefense = 0;
+    var defenderHP = 0;
     var defenderStartHP = 0;
     var defenderNotification = defenderDiv.children("aside").children("b");
     defenderNotification.hide();
@@ -40,26 +44,31 @@ $(document).ready(function(){
         playerDiv.children("div").not(".active").prependTo(enemyDiv);
         enemyNotification.show();
         you.prependTo("#content");
-        var playerName = choice.children(".name").text();
+        playerName = choice.children(".name").text();
         for (var i = characters.length - 1; i >= 0; i--) {
             if (characters[i].name == playerName) {
                 player = characters[i];
-                playerStartAttack = player.attack;
-                playerStartHP = player.HP;
+                playerAttack = player.attack;
+                playerStartAttack = playerAttack;
+                playerHP = player.HP;
+                playerStartHP = playerHP;
+                console.log(playerHP);
             }
         }
     };
 
     function ChooseDefender(choice) {
         enemyNotification.hide();
-        var defenderName = choice.children(".name").text();
+        defenderName = choice.children(".name").text();
         defenderNotification.text(defenderName + " is ready to fight.");
         defenderNotification.show();
         choice.prependTo(defenderDiv);
         for (var i = characters.length - 1; i >= 0; i--) {
             if (characters[i].name == defenderName) {
                 defender = characters[i];
-                defenderStartHP = defender.HP;             
+                defenderDefense = defender.defense;
+                defenderHP = defender.HP;
+                defenderStartHP = defenderHP;             
             }
         }
     }
@@ -79,27 +88,27 @@ $(document).ready(function(){
 
         if (defenderDiv.children().length == 2) {
             attackCount += 1;
-            if (defender.HP > 0 && player.HP > 0) {
+            if (defenderHP > 0 && playerHP > 0) {
                 if (attackCount > 1) {
-                player.attack += playerStartAttack;
+                playerAttack += playerStartAttack;
                 console.log(playerStartAttack);
-                console.log(player.attack);
+                console.log(playerAttack);
                 }
-                defender.HP -= player.attack;
-                player.HP -= defender.defense;
-                defenderNotification.html("You attack " + defender.name + " for " + player.attack + " damage.<br>" + defender.name + " attacked you back for " + defender.defense + " damage.");
+                defenderHP -= playerAttack;
+                playerHP -= defenderDefense;
+                defenderNotification.html("You attack " + defenderName + " for " + playerAttack + " damage.<br />" + defenderName + " attacked you back for " + defenderDefense + " damage.");
             }
-            if (player.HP <= 0) {
-                defenderNotification.text(player.name + " is dead!");
+            if (playerHP <= 0) {
+                defenderNotification.text(playerName + " is dead!");
                 resetButton.text("Try Again");
                 resetButton.show();
-            } else if (defender.HP <= 0 && enemyDiv.children().length <= 1) {
-                defenderNotification.html(defender.name + " is dead!<br><br>THE RING IS YOURS!");
+            } else if (defenderHP <= 0 && enemyDiv.children().length <= 1) {
+                defenderNotification.html(defenderName + " is dead!<br /><br />THE RING IS YOURS!");
                 resetButton.text("Play Again?");
                 resetButton.show();
-            } else if (defender.HP <= 0) {
+            } else if (defenderHP <= 0) {
                 defenderDiv.children("div").hide();
-                defenderNotification.text(defender.name + " is dead!");
+                defenderNotification.text(defenderName + " is dead!");
                 resetButton.text("Who's Next?");
                 resetButton.show();
             }
@@ -108,9 +117,9 @@ $(document).ready(function(){
 
     function NewPlayer () {
         $character.removeClass("active");
-        player.HP = playerStartHP;
-        player.attack = playerStartAttack;
-        defender.HP = defenderStartHP;
+        playerHP = playerStartHP;
+        playerAttack = playerStartAttack;
+        defenderHP = defenderStartHP;
         attackCount = 0;
         resetButton.hide();
         defenderNotification.hide();
@@ -124,16 +133,16 @@ $(document).ready(function(){
         resetButton.hide();
         defenderNotification.hide();
         enemyNotification.show();
-        defender.HP = defenderStartHP;
+        defenderHP = defenderStartHP;
         defenderDiv.children("div").appendTo(playerDiv);
     };
 
     function Reset() {
-        if (player.HP <= 0) {
+        if (playerHP <= 0) {
             NewPlayer();
-        } else if (defender.HP <= 0 && enemyDiv.children().length <= 1) {
+        } else if (defenderHP <= 0 && enemyDiv.children().length <= 1) {
             NewPlayer(); 
-        } else if (defender.HP <= 0) {
+        } else if (defenderHP <= 0) {
             NewDefender();
         }
     };
